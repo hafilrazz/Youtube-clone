@@ -71,10 +71,10 @@ function MobileTabBar() {
 
 function Header({ onToggleSidebar }: { onToggleSidebar: () => void }) {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-neutral-200 h-14 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center px-1.5 gap-1 sm:flex sm:justify-between sm:px-4 sm:gap-2">
-      <div className="flex min-w-0 items-center gap-1 sm:gap-4 shrink-0">
-        <button onClick={onToggleSidebar} className="p-2 rounded-full hover:bg-neutral-100" aria-label="Toggle sidebar">
-          <Menu className="h-5 w-5" />
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white h-14 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center px-1.5 gap-1 sm:flex sm:justify-between sm:px-4 sm:gap-2">
+      <div className="flex min-w-0 items-center gap-1 sm:gap-3 shrink-0">
+        <button onClick={onToggleSidebar} className="p-2 rounded-full hover:bg-neutral-100 active:bg-neutral-200" aria-label="Toggle sidebar">
+          <Menu className="h-6 w-6" strokeWidth={1.6} />
         </button>
         <Link to="/" className="flex min-w-0 items-center gap-1" aria-label="YouTube home">
           <svg viewBox="0 0 90 20" className="h-5 sm:h-6 w-auto" aria-hidden="true">
