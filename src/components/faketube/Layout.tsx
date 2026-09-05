@@ -2,7 +2,7 @@ import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Menu, Search, Mic, Video, Bell, Home, Music2, History, ThumbsUp, Clock, ListVideo, Loader2, CheckCircle2, Radio, X, Users, Compass, PlaySquare } from "lucide-react";
+import { Menu, Search, Mic, Video, Bell, Home, History, ThumbsUp, Clock, ListVideo, Loader2, CheckCircle2, X, Users, Compass } from "lucide-react";
 
 import { CATEGORIES, type Video as VideoT } from "@/lib/faketube-data";
 import { searchYouTube, suggestSearch } from "@/lib/youtube.functions";
@@ -293,9 +293,7 @@ function Sidebar({ open, mobileOpen, onCloseMobile }: { open: boolean; mobileOpe
     },
     {
       title: "Explore",
-      items: [
-        { icon: Music2, label: "Music", to: "/music" as const },
-      ]
+      items: []
     }
   ];
   return (
