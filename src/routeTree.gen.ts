@@ -12,14 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SubscriptionsRouteImport } from './routes/subscriptions'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as PlaylistRouteImport } from './routes/playlist'
-import { Route as MusicRouteImport } from './routes/music'
 import { Route as LikedRouteImport } from './routes/liked'
 import { Route as HistoryRouteImport } from './routes/history'
 import { Route as DiscoverRouteImport } from './routes/discover'
 import { Route as CompletedRouteImport } from './routes/completed'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WatchIdRouteImport } from './routes/watch.$id'
-import { Route as MusicPlaylistRouteImport } from './routes/music.playlist'
 import { Route as ChannelIdRouteImport } from './routes/channel.$id'
 
 const SubscriptionsRoute = SubscriptionsRouteImport.update({
@@ -35,11 +33,6 @@ const SearchRoute = SearchRouteImport.update({
 const PlaylistRoute = PlaylistRouteImport.update({
   id: '/playlist',
   path: '/playlist',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MusicRoute = MusicRouteImport.update({
-  id: '/music',
-  path: '/music',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LikedRoute = LikedRouteImport.update({
@@ -72,11 +65,6 @@ const WatchIdRoute = WatchIdRouteImport.update({
   path: '/watch/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MusicPlaylistRoute = MusicPlaylistRouteImport.update({
-  id: '/playlist',
-  path: '/playlist',
-  getParentRoute: () => MusicRoute,
-} as any)
 const ChannelIdRoute = ChannelIdRouteImport.update({
   id: '/channel/$id',
   path: '/channel/$id',
@@ -89,12 +77,10 @@ export interface FileRoutesByFullPath {
   '/discover': typeof DiscoverRoute
   '/history': typeof HistoryRoute
   '/liked': typeof LikedRoute
-  '/music': typeof MusicRouteWithChildren
   '/playlist': typeof PlaylistRoute
   '/search': typeof SearchRoute
   '/subscriptions': typeof SubscriptionsRoute
   '/channel/$id': typeof ChannelIdRoute
-  '/music/playlist': typeof MusicPlaylistRoute
   '/watch/$id': typeof WatchIdRoute
 }
 export interface FileRoutesByTo {
@@ -103,12 +89,10 @@ export interface FileRoutesByTo {
   '/discover': typeof DiscoverRoute
   '/history': typeof HistoryRoute
   '/liked': typeof LikedRoute
-  '/music': typeof MusicRouteWithChildren
   '/playlist': typeof PlaylistRoute
   '/search': typeof SearchRoute
   '/subscriptions': typeof SubscriptionsRoute
   '/channel/$id': typeof ChannelIdRoute
-  '/music/playlist': typeof MusicPlaylistRoute
   '/watch/$id': typeof WatchIdRoute
 }
 export interface FileRoutesById {
@@ -118,12 +102,10 @@ export interface FileRoutesById {
   '/discover': typeof DiscoverRoute
   '/history': typeof HistoryRoute
   '/liked': typeof LikedRoute
-  '/music': typeof MusicRouteWithChildren
   '/playlist': typeof PlaylistRoute
   '/search': typeof SearchRoute
   '/subscriptions': typeof SubscriptionsRoute
   '/channel/$id': typeof ChannelIdRoute
-  '/music/playlist': typeof MusicPlaylistRoute
   '/watch/$id': typeof WatchIdRoute
 }
 export interface FileRouteTypes {
@@ -134,12 +116,10 @@ export interface FileRouteTypes {
     | '/discover'
     | '/history'
     | '/liked'
-    | '/music'
     | '/playlist'
     | '/search'
     | '/subscriptions'
     | '/channel/$id'
-    | '/music/playlist'
     | '/watch/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -148,12 +128,10 @@ export interface FileRouteTypes {
     | '/discover'
     | '/history'
     | '/liked'
-    | '/music'
     | '/playlist'
     | '/search'
     | '/subscriptions'
     | '/channel/$id'
-    | '/music/playlist'
     | '/watch/$id'
   id:
     | '__root__'
@@ -162,12 +140,10 @@ export interface FileRouteTypes {
     | '/discover'
     | '/history'
     | '/liked'
-    | '/music'
     | '/playlist'
     | '/search'
     | '/subscriptions'
     | '/channel/$id'
-    | '/music/playlist'
     | '/watch/$id'
   fileRoutesById: FileRoutesById
 }
@@ -177,7 +153,6 @@ export interface RootRouteChildren {
   DiscoverRoute: typeof DiscoverRoute
   HistoryRoute: typeof HistoryRoute
   LikedRoute: typeof LikedRoute
-  MusicRoute: typeof MusicRouteWithChildren
   PlaylistRoute: typeof PlaylistRoute
   SearchRoute: typeof SearchRoute
   SubscriptionsRoute: typeof SubscriptionsRoute
@@ -206,13 +181,6 @@ declare module '@tanstack/react-router' {
       path: '/playlist'
       fullPath: '/playlist'
       preLoaderRoute: typeof PlaylistRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/music': {
-      id: '/music'
-      path: '/music'
-      fullPath: '/music'
-      preLoaderRoute: typeof MusicRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/liked': {
@@ -257,13 +225,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WatchIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/music/playlist': {
-      id: '/music/playlist'
-      path: '/playlist'
-      fullPath: '/music/playlist'
-      preLoaderRoute: typeof MusicPlaylistRouteImport
-      parentRoute: typeof MusicRoute
-    }
     '/channel/$id': {
       id: '/channel/$id'
       path: '/channel/$id'
@@ -274,23 +235,12 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface MusicRouteChildren {
-  MusicPlaylistRoute: typeof MusicPlaylistRoute
-}
-
-const MusicRouteChildren: MusicRouteChildren = {
-  MusicPlaylistRoute: MusicPlaylistRoute,
-}
-
-const MusicRouteWithChildren = MusicRoute._addFileChildren(MusicRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CompletedRoute: CompletedRoute,
   DiscoverRoute: DiscoverRoute,
   HistoryRoute: HistoryRoute,
   LikedRoute: LikedRoute,
-  MusicRoute: MusicRouteWithChildren,
   PlaylistRoute: PlaylistRoute,
   SearchRoute: SearchRoute,
   SubscriptionsRoute: SubscriptionsRoute,

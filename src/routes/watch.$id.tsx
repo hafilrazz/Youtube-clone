@@ -5,11 +5,10 @@ import { StatusBar } from "@capacitor/status-bar";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { ThumbsUp, ThumbsDown, Share2, Download, Scissors, Bell, BookmarkPlus, BookmarkCheck, Music2, Check, Loader2, Heart, Pin, BadgeCheck, ChevronDown, ChevronUp } from "lucide-react";
+import { ThumbsUp, ThumbsDown, Share2, Download, Scissors, Bell, BookmarkPlus, BookmarkCheck, Check, Loader2, Heart, Pin, BadgeCheck, ChevronDown, ChevronUp } from "lucide-react";
 import { FakeTubeLayout } from "@/components/faketube/Layout";
 import { getYouTubeVideo, getComments, getCommentReplies } from "@/lib/youtube.functions";
 import { useLikes, usePlaylist, useRecent } from "@/lib/user-data";
-import { useMusicVideos } from "@/lib/music-videos";
 import { useSubscriptions } from "@/lib/subscriptions";
 import { useVideoPlayer } from "@/lib/video-player-context";
 import { z } from "zod";
@@ -82,7 +81,6 @@ function Watch() {
   const [downloadOpen, setDownloadOpen] = useState(false);
   const likes = useLikes();
   const playlist = usePlaylist();
-  const musicVids = useMusicVideos();
   const { record } = useRecent();
 
   useEffect(() => { record(id); }, [id, record]);
@@ -121,7 +119,6 @@ function Watch() {
 
   const liked = likes.isLiked(id);
   const saved = playlist.isSaved(id);
-  const inMusic = musicVids.has(id);
   const youtubeUrl = `https://www.youtube.com/watch?v=${id}`;
   const encodedYoutubeUrl = encodeURIComponent(youtubeUrl);
   const downloaderLinks = [
@@ -185,17 +182,6 @@ function Watch() {
                   <ThumbsDown className="h-5 w-5" />
                 </button>
               </div>
-
-              <button
-                onClick={() => musicVids.toggle(video.id)}
-                className={cn(
-                  "rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 transition-colors",
-                  inMusic ? "bg-red-600 text-white hover:bg-red-700" : "bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700"
-                )}
-              >
-                <Music2 className="h-5 w-5" />
-                <span>{inMusic ? "In music" : "Add to music"}</span>
-              </button>
 
               <button className="bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2">
                 <Share2 className="h-5 w-5" />

@@ -11,8 +11,6 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { MusicPlayerProvider } from "@/lib/music-player";
-import { MiniPlayer } from "@/components/faketube/MiniPlayer";
 import { VideoPlayerProvider } from "@/lib/video-player-context";
 import { GlobalVideoPlayer } from "@/components/faketube/GlobalVideoPlayer";
 import { useTvNavigation } from "@/lib/tv-navigation";
@@ -151,15 +149,12 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <MusicPlayerProvider>
-        <VideoPlayerProvider>
-          <TvNavigationBridge />
-          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-          <Outlet />
-          <GlobalVideoPlayer />
-          <MiniPlayer />
-        </VideoPlayerProvider>
-      </MusicPlayerProvider>
+      <VideoPlayerProvider>
+        <TvNavigationBridge />
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+        <GlobalVideoPlayer />
+      </VideoPlayerProvider>
     </QueryClientProvider>
   );
 }
