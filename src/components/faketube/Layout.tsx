@@ -26,18 +26,44 @@ export function FakeTubeLayout({ children, activeCategory, onCategoryChange }: {
     }
   };
   return (
-    <div className="min-h-screen bg-white text-neutral-900 overflow-x-hidden">
+    <div className="min-h-screen bg-white text-neutral-900 overflow-x-hidden font-[Roboto,'Helvetica_Neue',Arial,sans-serif]">
       <Header onToggleSidebar={toggle} />
       <div className="flex pt-14">
         <Sidebar open={sidebarOpen} mobileOpen={mobileOpen} onCloseMobile={() => setMobileOpen(false)} />
-        <main className={`flex-1 min-w-0 ${sidebarOpen ? "md:ml-60" : "md:ml-20"} transition-all`}>
+        <main className={`flex-1 min-w-0 ${sidebarOpen ? "md:ml-60" : "md:ml-[72px]"} transition-all`}>
           {onCategoryChange && (
             <CategoryBar active={activeCategory ?? "All"} onChange={onCategoryChange} />
           )}
-          <div className="mx-auto w-full max-w-[1600px] p-3 sm:p-4 md:p-6 pb-28">{children}</div>
+          <div className="mx-auto w-full max-w-[2200px] px-2 py-3 sm:px-4 sm:py-5 md:px-6 pb-28">{children}</div>
         </main>
       </div>
+      <MobileTabBar />
     </div>
+  );
+}
+
+/** YouTube's mobile bottom tab bar. */
+function MobileTabBar() {
+  const tabs = [
+    { icon: Home, label: "Home", to: "/" as const },
+    { icon: Compass, label: "Explore", to: "/discover" as const },
+    { icon: Users, label: "Subscriptions", to: "/subscriptions" as const },
+    { icon: User, label: "You", to: "/history" as const },
+  ];
+  return (
+    <nav className="fixed bottom-0 inset-x-0 z-40 md:hidden bg-white border-t border-neutral-200 flex items-stretch pb-[env(safe-area-inset-bottom)]">
+      {tabs.map(({ icon: Icon, label, to }) => (
+        <Link
+          key={label}
+          to={to}
+          search={{ sp: "" }}
+          className="flex-1 flex flex-col items-center justify-center gap-1 py-2 text-[10px] leading-none text-neutral-700"
+        >
+          <Icon className="h-[22px] w-[22px]" strokeWidth={1.8} />
+          <span className="truncate max-w-full px-1">{label}</span>
+        </Link>
+      ))}
+    </nav>
   );
 }
 
