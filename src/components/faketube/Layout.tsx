@@ -2,7 +2,7 @@ import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Menu, Search, Mic, Video, Bell, Home, History, ThumbsUp, Clock, ListVideo, Loader2, CheckCircle2, X, Users, Compass } from "lucide-react";
+import { Menu, Search, Mic, Video, Bell, Home, History, ThumbsUp, Clock, ListVideo, Loader2, CheckCircle2, X, Users, Compass, User } from "lucide-react";
 
 import { CATEGORIES, type Video as VideoT } from "@/lib/faketube-data";
 import { searchYouTube, suggestSearch } from "@/lib/youtube.functions";
@@ -26,18 +26,44 @@ export function FakeTubeLayout({ children, activeCategory, onCategoryChange }: {
     }
   };
   return (
-    <div className="min-h-screen bg-white text-neutral-900 overflow-x-hidden">
+    <div className="min-h-screen bg-white text-neutral-900 overflow-x-hidden font-[Roboto,'Helvetica_Neue',Arial,sans-serif]">
       <Header onToggleSidebar={toggle} />
       <div className="flex pt-14">
         <Sidebar open={sidebarOpen} mobileOpen={mobileOpen} onCloseMobile={() => setMobileOpen(false)} />
-        <main className={`flex-1 min-w-0 ${sidebarOpen ? "md:ml-60" : "md:ml-20"} transition-all`}>
+        <main className={`flex-1 min-w-0 ${sidebarOpen ? "md:ml-60" : "md:ml-[72px]"} transition-all`}>
           {onCategoryChange && (
             <CategoryBar active={activeCategory ?? "All"} onChange={onCategoryChange} />
           )}
-          <div className="mx-auto w-full max-w-[1600px] p-3 sm:p-4 md:p-6 pb-28">{children}</div>
+          <div className="mx-auto w-full max-w-[2200px] px-2 py-3 sm:px-4 sm:py-5 md:px-6 pb-28">{children}</div>
         </main>
       </div>
+      <MobileTabBar />
     </div>
+  );
+}
+
+/** YouTube's mobile bottom tab bar. */
+function MobileTabBar() {
+  const tabs = [
+    { icon: Home, label: "Home", to: "/" as const },
+    { icon: Compass, label: "Explore", to: "/discover" as const },
+    { icon: Users, label: "Subscriptions", to: "/subscriptions" as const },
+    { icon: User, label: "You", to: "/history" as const },
+  ];
+  return (
+    <nav className="fixed bottom-0 inset-x-0 z-40 md:hidden bg-white border-t border-neutral-200 flex items-stretch pb-[env(safe-area-inset-bottom)]">
+      {tabs.map(({ icon: Icon, label, to }) => (
+        <Link
+          key={label}
+          to={to}
+          search={{ sp: "" }}
+          className="flex-1 flex flex-col items-center justify-center gap-1 py-2 text-[10px] leading-none text-neutral-700"
+        >
+          <Icon className="h-[22px] w-[22px]" strokeWidth={1.8} />
+          <span className="truncate max-w-full px-1">{label}</span>
+        </Link>
+      ))}
+    </nav>
   );
 }
 
@@ -45,10 +71,10 @@ export function FakeTubeLayout({ children, activeCategory, onCategoryChange }: {
 
 function Header({ onToggleSidebar }: { onToggleSidebar: () => void }) {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-neutral-200 h-14 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center px-1.5 gap-1 sm:flex sm:justify-between sm:px-4 sm:gap-2">
-      <div className="flex min-w-0 items-center gap-1 sm:gap-4 shrink-0">
-        <button onClick={onToggleSidebar} className="p-2 rounded-full hover:bg-neutral-100" aria-label="Toggle sidebar">
-          <Menu className="h-5 w-5" />
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white h-14 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center px-1.5 gap-1 sm:flex sm:justify-between sm:px-4 sm:gap-2">
+      <div className="flex min-w-0 items-center gap-1 sm:gap-3 shrink-0">
+        <button onClick={onToggleSidebar} className="p-2 rounded-full hover:bg-neutral-100 active:bg-neutral-200" aria-label="Toggle sidebar">
+          <Menu className="h-6 w-6" strokeWidth={1.6} />
         </button>
         <Link to="/" className="flex min-w-0 items-center gap-1" aria-label="YouTube home">
           <svg viewBox="0 0 90 20" className="h-5 sm:h-6 w-auto" aria-hidden="true">
@@ -62,8 +88,13 @@ function Header({ onToggleSidebar }: { onToggleSidebar: () => void }) {
       </div>
       <SearchBox />
       <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-        <button className="p-2 rounded-full hover:bg-neutral-100 hidden sm:inline-flex"><Video className="h-5 w-5" /></button>
-        <button className="p-2 rounded-full hover:bg-neutral-100 hidden sm:inline-flex"><Bell className="h-5 w-5" /></button>
+        <button className="hidden lg:inline-flex items-center gap-1.5 h-9 pl-3 pr-4 rounded-full bg-neutral-100 hover:bg-neutral-200 text-sm font-medium">
+          <Video className="h-5 w-5" strokeWidth={1.6} /> Create
+        </button>
+        <button className="p-2 rounded-full hover:bg-neutral-100 hidden sm:inline-flex relative" aria-label="Notifications">
+          <Bell className="h-6 w-6" strokeWidth={1.6} />
+          <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-600" />
+        </button>
         <ProfileMenu />
       </div>
     </header>
