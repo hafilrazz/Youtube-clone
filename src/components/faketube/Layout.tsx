@@ -2,7 +2,7 @@ import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Menu, Search, Mic, Video, Bell, Home, History, ThumbsUp, Clock, ListVideo, Loader2, CheckCircle2, X, Users, Compass } from "lucide-react";
+import { Menu, Search, Mic, Video, Bell, Home, History, ThumbsUp, Clock, ListVideo, Loader2, CheckCircle2, X, Users, Compass, User } from "lucide-react";
 
 import { CATEGORIES, type Video as VideoT } from "@/lib/faketube-data";
 import { searchYouTube, suggestSearch } from "@/lib/youtube.functions";
