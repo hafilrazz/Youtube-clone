@@ -88,8 +88,13 @@ function Header({ onToggleSidebar }: { onToggleSidebar: () => void }) {
       </div>
       <SearchBox />
       <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-        <button className="p-2 rounded-full hover:bg-neutral-100 hidden sm:inline-flex"><Video className="h-5 w-5" /></button>
-        <button className="p-2 rounded-full hover:bg-neutral-100 hidden sm:inline-flex"><Bell className="h-5 w-5" /></button>
+        <button className="hidden lg:inline-flex items-center gap-1.5 h-9 pl-3 pr-4 rounded-full bg-neutral-100 hover:bg-neutral-200 text-sm font-medium">
+          <Video className="h-5 w-5" strokeWidth={1.6} /> Create
+        </button>
+        <button className="p-2 rounded-full hover:bg-neutral-100 hidden sm:inline-flex relative" aria-label="Notifications">
+          <Bell className="h-6 w-6" strokeWidth={1.6} />
+          <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-600" />
+        </button>
         <ProfileMenu />
       </div>
     </header>
